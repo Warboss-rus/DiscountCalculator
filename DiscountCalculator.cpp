@@ -7,12 +7,15 @@
 #include <iostream>
 #include <numeric>
 #include <time.h>
+#include <algorithm>
 #include "LibDiscountCalculator\Product.h"
 #include "LibDiscountCalculator\PriceCalculator.h"
 #include "LibDiscountCalculator\RuleBundleDiscount.h"
 #include "LibDiscountCalculator\RuleBestOf.h"
 #include "LibDiscountCalculator\RuleCountDiscount.h"
 #include "LibDiscountCalculator\RuleExcludeProducts.h"
+#include "LibDiscountCalculator\RuleForEachProduct.h"
+#include "LibDiscountCalculator\RuleSimpleDiscount.h"
 
 using namespace std;
 using namespace libdiscountcalculator;
@@ -33,7 +36,7 @@ int main()
 		make_shared<CRuleBoundDiscount>(vector<ProductPtr>{ getProduct('A'), getProduct(L'B') } , 0.1),
 		make_shared<CRuleBoundDiscount>(vector<ProductPtr>{ getProduct(L'D'), getProduct(L'E') } , 0.05),
 		make_shared<CRuleBoundDiscount>(vector<ProductPtr>{ getProduct(L'E'), getProduct(L'F'), getProduct(L'G') } , 0.05),
-		//TODO: A & [K, L, M]
+		make_shared<CRuleForEachProduct>(getProduct(L'A'), make_shared<CRuleSimpleDiscount>(vector<ProductPtr>{ getProduct(L'K'), getProduct(L'L'), getProduct(L'M') }, 0.05)),
 		make_shared<CRuleExcludeProducts>(make_shared<CRuleBestOf>(vector<RulePtr>{
 			make_shared<CRuleCountDiscount>(3, 0.05),
 			make_shared<CRuleCountDiscount>(4, 0.1),
@@ -46,8 +49,17 @@ int main()
 	{
 		calculator.AddRule(rule);
 	}
-	double totalCost = std::accumulate(products.begin(), products.end(), 0.0, [](double sum, ProductPtr const& product) {return sum + product->GetBaseCost(); });
-	double costWithDiscount = calculator.CalculatePrice(products);
+	wcout << L"Result:" << endl;
+	std::vector<CPriceCalculator::ProductPrice> prices;
+	double totalCost = std::accumulate(products.begin(), products.end(), 0.0, [](double sum, ProductPtr const& product) { return sum + product->GetBaseCost(); });
+	double costWithDiscount = calculator.CalculatePrice(products, &prices);
+	std::sort(prices.begin(), prices.end(), [](CPriceCalculator::ProductPrice const& first, CPriceCalculator::ProductPrice const& second) { 
+		return first.first->GetName() < second.first->GetName(); 
+	});
+	for (auto& pair : prices)
+	{
+		wcout << pair.first->GetName() << L' ' << pair.second << endl;
+	}
 	wcout << L"Total cost: " << totalCost << endl;
 	wcout << L"With discounts: " << costWithDiscount << endl;
 	wcout << L"Saved: " << (totalCost - costWithDiscount) << endl;

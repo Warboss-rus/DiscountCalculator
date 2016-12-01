@@ -44,6 +44,12 @@
     <ClInclude Include="RuleExcludeProducts.h">
       <Filter>Source Files\Rules</Filter>
     </ClInclude>
+    <ClInclude Include="RuleForEachProduct.h">
+      <Filter>Source Files\Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="RuleSimpleDiscount.h">
+      <Filter>Source Files\Rules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PriceCalculator.cpp">
@@ -62,6 +68,12 @@
       <Filter>Source Files\Rules</Filter>
     </ClCompile>
     <ClCompile Include="RuleExcludeProducts.cpp">
+      <Filter>Source Files\Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="RuleForEachProduct.cpp">
+      <Filter>Source Files\Rules</Filter>
+    </ClCompile>
+    <ClCompile Include="RuleSimpleDiscount.cpp">
       <Filter>Source Files\Rules</Filter>
     </ClCompile>
   </ItemGroup>

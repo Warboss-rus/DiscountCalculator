@@ -120,6 +120,8 @@
     <ClInclude Include="RuleBundleDiscount.h" />
     <ClInclude Include="RuleCountDiscount.h" />
     <ClInclude Include="RuleExcludeProducts.h" />
+    <ClInclude Include="RuleForEachProduct.h" />
+    <ClInclude Include="RuleSimpleDiscount.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PriceCalculator.cpp" />
@@ -128,6 +130,8 @@
     <ClCompile Include="RuleBundleDiscount.cpp" />
     <ClCompile Include="RuleCountDiscount.cpp" />
     <ClCompile Include="RuleExcludeProducts.cpp" />
+    <ClCompile Include="RuleForEachProduct.cpp" />
+    <ClCompile Include="RuleSimpleDiscount.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,7 +9,9 @@ class CPriceCalculator
 {
 public:
 	void AddRule(RulePtr const& rule);
-	double CalculatePrice(std::vector<ProductPtr> const& products) const;
+
+	typedef std::pair<ProductPtr, double> ProductPrice;
+	double CalculatePrice(std::vector<ProductPtr> const& products, std::vector<ProductPrice> * prices = nullptr) const;
 private:
 	std::vector<RulePtr> m_rules;
 };

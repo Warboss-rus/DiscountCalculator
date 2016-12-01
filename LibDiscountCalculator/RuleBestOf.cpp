@@ -17,7 +17,7 @@ IRule::Discounts CRuleBestOf::GetDiscounts(std::vector<ProductPtr> const& produc
 	for (auto& rule : m_rules)
 	{
 		Discounts discounts = rule->GetDiscounts(products);
-		double discountSum = std::accumulate(discounts.begin(), discounts.end(), 0, [](double sum, ProductDiscount const& discount) {
+		double discountSum = std::accumulate(discounts.begin(), discounts.end(), 0.0, [](double sum, ProductDiscount const& discount) {
 			return sum + discount.first->GetBaseCost() * (1.0 - discount.second);
 		});
 		if (discountSum > resultDiscountSum)
