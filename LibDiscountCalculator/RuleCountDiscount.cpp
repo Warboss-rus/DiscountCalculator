@@ -1,6 +1,7 @@
 #include "RuleCountDiscount.h"
-#include <numeric>
 #include "IProduct.h"
+#include <algorithm>
+#include <iterator>
 
 namespace libdiscountcalculator
 {
@@ -11,13 +12,17 @@ CRuleCountDiscount::CRuleCountDiscount(size_t count, double discountPercent)
 
 }
 
-double CRuleCountDiscount::GetDiscount(std::vector<ProductPtr> const& products)
+IRule::Discounts CRuleCountDiscount::GetDiscounts(std::vector<ProductPtr> const& products)
 {
+	Discounts result;
 	if (products.size() >= m_count)
 	{
-		return m_discountPercent * std::accumulate(products.begin(), products.end(), 0.0, [](double sum, ProductPtr const& product) {return sum + product->GetBaseCost(); });
+		std::transform(products.begin(), products.end(), std::back_inserter(result), [this](ProductPtr const& product) {
+			return std::make_pair(product, m_discountPercent);
+		});
+		return result;
 	}
-	return 0.0;
+	return result;
 }
 
 }

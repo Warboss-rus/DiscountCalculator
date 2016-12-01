@@ -1,5 +1,6 @@
 #include "RuleBestOf.h"
-#include <algorithm>
+#include <numeric>
+#include "IProduct.h"
 
 namespace libdiscountcalculator
 {
@@ -9,12 +10,21 @@ CRuleBestOf::CRuleBestOf(std::vector<RulePtr> const& rules)
 {
 }
 
-double CRuleBestOf::GetDiscount(std::vector<ProductPtr> const& products)
+IRule::Discounts CRuleBestOf::GetDiscounts(std::vector<ProductPtr> const& products)
 {
-	double result = 0;
+	Discounts result;
+	double resultDiscountSum = 0;
 	for (auto& rule : m_rules)
 	{
-		result = std::max(result, rule->GetDiscount(products));
+		Discounts discounts = rule->GetDiscounts(products);
+		double discountSum = std::accumulate(discounts.begin(), discounts.end(), 0, [](double sum, ProductDiscount const& discount) {
+			return sum + discount.first->GetBaseCost() * (1.0 - discount.second);
+		});
+		if (discountSum > resultDiscountSum)
+		{
+			resultDiscountSum = discountSum;
+			result = discounts;
+		}
 	}
 	return result;
 }

@@ -8,7 +8,7 @@ CRuleExcludeProducts::CRuleExcludeProducts(RulePtr const& rule, std::vector<Prod
 {
 }
 
-double CRuleExcludeProducts::GetDiscount(std::vector<ProductPtr> const& products)
+IRule::Discounts CRuleExcludeProducts::GetDiscounts(std::vector<ProductPtr> const& products)
 {
 	std::vector<ProductPtr> productsWithoutExclude;
 	productsWithoutExclude.reserve(products.size() - m_products.size());
@@ -19,7 +19,7 @@ double CRuleExcludeProducts::GetDiscount(std::vector<ProductPtr> const& products
 			productsWithoutExclude.push_back(product);
 		}
 	}
-	return m_rule->GetDiscount(productsWithoutExclude);
+	return m_rule->GetDiscounts(productsWithoutExclude);
 }
 
 }

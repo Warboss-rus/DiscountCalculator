@@ -12,10 +12,19 @@ void CPriceCalculator::AddRule(RulePtr const& rule)
 
 double CPriceCalculator::CalculatePrice(std::vector<ProductPtr> const& products) const
 {
-	double result = std::accumulate(products.begin(), products.end(), 0.0, [](double sum, ProductPtr const& product) {return sum + product->GetBaseCost(); });
+	std::vector<ProductPtr> productsCopy = products;
+	double result = std::accumulate(productsCopy.begin(), productsCopy.end(), 0.0, [](double sum, ProductPtr const& product) {return sum + product->GetBaseCost(); });
 	for (auto& rule : m_rules)
 	{
-		result -= rule->GetDiscount(products);
+		auto discounts = rule->GetDiscounts(productsCopy);
+		result -= std::accumulate(discounts.begin(), discounts.end(), 0.0, [](double sum, IRule::ProductDiscount const& discount) {
+			return sum + discount.first->GetBaseCost() * (1.0 - discount.second);
+		});
+		for (auto& discount : discounts)//Remove already discounted items from further rules
+		{
+			auto it = std::find(productsCopy.begin(), productsCopy.end(), discount.first);
+			productsCopy.erase(it);
+		}
 	}
 	return result;
 }

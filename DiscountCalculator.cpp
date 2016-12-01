@@ -38,7 +38,7 @@ int main()
 			make_shared<CRuleCountDiscount>(3, 0.05),
 			make_shared<CRuleCountDiscount>(4, 0.1),
 			make_shared<CRuleCountDiscount>(5, 0.2),
-		}, vector<ProductPtr>{getProduct('A'), getProduct('C')})),
+		}), vector<ProductPtr>{getProduct('A'), getProduct('C')}),
 	};
 	CPriceCalculator calculator;
 	wcout << L"Rules:" << endl;

@@ -10,6 +10,8 @@ class IRule
 public:
 	virtual ~IRule() = default;
 
-	virtual double GetDiscount(std::vector<ProductPtr> const& products) = 0;
+	typedef std::pair<ProductPtr, double> ProductDiscount;
+	typedef std::vector<ProductDiscount> Discounts;
+	virtual Discounts GetDiscounts(std::vector<ProductPtr> const& products) = 0;
 };
 }

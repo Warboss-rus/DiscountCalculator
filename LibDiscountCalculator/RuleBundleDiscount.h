@@ -10,7 +10,7 @@ class CRuleBoundDiscount : public IRule
 public:
 	CRuleBoundDiscount(std::vector<ProductPtr> const& products, double discountPercent);
 
-	virtual double GetDiscount(std::vector<ProductPtr> const& products) override;
+	virtual Discounts GetDiscounts(std::vector<ProductPtr> const& products) override;
 private:
 	std::vector<ProductPtr> m_products;
 	double m_discountPercent;
