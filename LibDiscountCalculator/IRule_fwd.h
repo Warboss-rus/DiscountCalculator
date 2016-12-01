@@ -4,5 +4,5 @@
 namespace libdiscountcalculator
 {
 class IRule;
-typedef std::shared_ptr<IRule> RulePtr;
+typedef std::unique_ptr<IRule> RulePtr;
 }

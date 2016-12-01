@@ -3,8 +3,8 @@
 namespace libdiscountcalculator
 {
 
-CRuleExcludeProducts::CRuleExcludeProducts(RulePtr const& rule, std::vector<ProductPtr> const& products)
-	:m_rule(rule), m_products(products.begin(), products.end())
+CRuleExcludeProducts::CRuleExcludeProducts(RulePtr && rule, std::vector<ProductPtr> const& products)
+	:m_rule(std::move(rule)), m_products(products.begin(), products.end())
 {
 }
 

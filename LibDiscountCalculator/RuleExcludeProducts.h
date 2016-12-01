@@ -7,7 +7,7 @@ namespace libdiscountcalculator
 class CRuleExcludeProducts : public IRule
 {
 public:
-	CRuleExcludeProducts(RulePtr const& rule, std::vector<ProductPtr> const& products);
+	CRuleExcludeProducts(RulePtr && rule, std::vector<ProductPtr> const& products);
 
 	virtual Discounts GetDiscounts(std::vector<ProductPtr> const& products) override;
 private:

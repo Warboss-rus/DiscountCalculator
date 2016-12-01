@@ -4,8 +4,8 @@
 
 namespace libdiscountcalculator
 {
-CRuleForEachProduct::CRuleForEachProduct(ProductPtr const& product, RulePtr const& rule)
-	:m_product(product), m_rule(rule)
+CRuleForEachProduct::CRuleForEachProduct(ProductPtr const& product, RulePtr && rule)
+	:m_product(product), m_rule(std::move(rule))
 {
 
 }

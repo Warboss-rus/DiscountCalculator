@@ -5,8 +5,8 @@
 namespace libdiscountcalculator
 {
 
-CRuleBestOf::CRuleBestOf(std::vector<RulePtr> const& rules)
-	:m_rules(rules)
+CRuleBestOf::CRuleBestOf(std::vector<RulePtr> && rules)
+	:m_rules(std::move(rules))
 {
 }
 

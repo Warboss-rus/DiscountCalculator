@@ -7,9 +7,9 @@
 
 namespace libdiscountcalculator
 {
-void CPriceCalculator::AddRule(RulePtr const& rule)
+void CPriceCalculator::AddRule(RulePtr && rule)
 {
-	m_rules.push_back(rule);
+	m_rules.push_back(std::move(rule));
 }
 
 double CPriceCalculator::CalculatePrice(std::vector<ProductPtr> const& products, std::vector<ProductPrice> * prices) const

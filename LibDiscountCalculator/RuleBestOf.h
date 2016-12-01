@@ -6,7 +6,7 @@ namespace libdiscountcalculator
 class CRuleBestOf : public IRule 
 {
 public:
-	CRuleBestOf(std::vector<RulePtr> const& rules);
+	CRuleBestOf(std::vector<RulePtr> && rules);
 
 	virtual Discounts GetDiscounts(std::vector<ProductPtr> const& products) override;
 private:
