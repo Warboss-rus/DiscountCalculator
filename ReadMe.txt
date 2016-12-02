@@ -1,40 +1,32 @@
-========================================================================
-    CONSOLE APPLICATION : DiscountCalculator Project Overview
-========================================================================
+Калькулятор скидок v0.1
+Простейшая библиотека для подсчета стоимости товаров с учетом скидок, написаная на С++11
 
-AppWizard has created this DiscountCalculator application for you.
+Структуры и типы:
+ProductPtr = shared_ptr<IProduct>
+RulePtr = unique_ptr<IRule>
+ProductDiscount = pair<ProductPtr, double> - продукт и его скидка в процентах
+Discounts = vector<ProductDiscount> - продукты и их скидки, полученные из правила
+ProductPrice = pair<ProductPtr, double> - продукт и его цена после скидок
 
-This file contains a summary of what you will find in each of the files that
-make up your DiscountCalculator application.
+Интерфейсы:
+IProduct - базовый интерфейс продукта для расчета стоимости. Методы:
+- wstring GetName() const - возвращает имя продукта
+- double GetBaseCost() const - возвращает стоимость продукта без скидок
+IRule - интерфейс правила для скидки
+- Discounts GetDiscounts(vector<ProductPtr> products) const - возвращает продукты, на которые сделана скидка и размер скидки в процентах
 
+Классы:
+CProduct - базовая реализация интерфейса IProduct, абстрактный продукт
+CPriceCalculator - калькулятор скидок
+- void AddRule(RulePtr) - добавляет правило, определяющее скидку
+- double CalculatePrice(vector<ProductPtr> products, vector<ProductPrice>* prices = null) const - Принимает список продуктов, возвращает конечную сумму покупки. Опциональный параметр prices позволяет получить стоимость каждого товара в отдельности.
 
-DiscountCalculator.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
+Правила (скидки):
+CRuleBestOf - дает лучшую скидку из дочерних.
+CRuleBoundDiscount - дает скидку на указанные продукты только если все продукты есть в корзине (для каждого набора).
+CRuleCountDiscount - дает скидку если общее количество продуктов равно или превышает заданное значение.
+CRuleExcludeProducts - исключает определенные продукты из списка для дочернего правила. Например, если некоторые продукты не учавствуют в CRuleCountDiscount.
+CRuleForEachProduct - возвращает до N лучших скидок из дочернего правила, где N - количество указанного продукта в заказе.
+CRuleSimpleDiscount - дает скидки на любой (и каждый) из указанных продуктов.
 
-DiscountCalculator.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
-
-DiscountCalculator.cpp
-    This is the main application source file.
-
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named DiscountCalculator.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+Пример использования можно посмотреть в файле DiscountCalculator.cpp
